@@ -13,6 +13,10 @@ namespace JOIEnergy.Services
         }
 
         public Supplier GetPricePlanIdForSmartMeterId(string smartMeterId) {
+            if (!_smartMeterToPricePlanAccounts.ContainsKey(smartMeterId))
+            {
+                return Supplier.NullSupplier;
+            }
             return _smartMeterToPricePlanAccounts[smartMeterId];
         }
     }

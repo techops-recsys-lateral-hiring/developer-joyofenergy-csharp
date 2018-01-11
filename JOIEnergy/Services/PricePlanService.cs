@@ -7,14 +7,17 @@ namespace JOIEnergy.Services
 {
     public class PricePlanService : IPricePlanService
     {
+        public interface Debug { void Log(string s); };
 
         private readonly List<PricePlan> _pricePlans;
         private IMeterReadingService _meterReadingService;
+        private readonly Debug debug;
 
-        public PricePlanService(List<PricePlan> pricePlan, IMeterReadingService meterReadingService)
+        public PricePlanService(List<PricePlan> pricePlan, IMeterReadingService meterReadingService, Debug debug = null)
         {
             _pricePlans = pricePlan;
             _meterReadingService = meterReadingService;
+            this.debug = debug;
         }
 
         private decimal calculateAverageReading(List<ElectricityReading> electricityReadings)
@@ -31,18 +34,22 @@ namespace JOIEnergy.Services
 
             return (decimal)(last - first).TotalHours;
         }
-
-
-
         private decimal calculateCost(List<ElectricityReading> electricityReadings, PricePlan pricePlan)
         {
             var average = calculateAverageReading(electricityReadings);
             var timeElapsed = calculateTimeElapsed(electricityReadings);
-
             var averagedCost = average/timeElapsed;
+            Log($"average: {average}, timeElapsed: {timeElapsed}, averagedCost: {averagedCost}");
             return averagedCost * pricePlan.UnitRate;
         }
 
+        private void Log(string m)
+        {
+            if (debug != null)
+            {
+                debug.Log(m);
+            }
+        }
 
         public Dictionary<String, decimal> GetConsumptionCostOfElectricityReadingsForEachPricePlan(String smartMeterId)
         {

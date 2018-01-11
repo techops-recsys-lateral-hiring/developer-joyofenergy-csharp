@@ -25,7 +25,14 @@ namespace JOIEnergy.Tests
         public void GivenTheSmartMeterIdReturnsThePricePlanId()
         {
             var result = accountService.GetPricePlanIdForSmartMeterId("smart-meter-id");
-            Assert.Equal(Supplier.PowerForEveryone, PRICE_PLAN_ID);
+            Assert.Equal(Supplier.PowerForEveryone, result);
+        }
+
+        [Fact]
+        public void GivenAnUnknownSmartMeterIdReturnsANullSupplier()
+        {
+            var result = accountService.GetPricePlanIdForSmartMeterId("bob-carolgees");
+            Assert.Equal(Supplier.NullSupplier, result);
         }
     }
 }

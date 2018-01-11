@@ -5,6 +5,7 @@ namespace JOIEnergy.Enums
     {
         DrEvilsDarkEnergy,
         TheGreenEco,
-        PowerForEveryone
+        PowerForEveryone,
+        NullSupplier
     }
 }
