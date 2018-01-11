@@ -58,7 +58,6 @@ namespace JOIEnergy.Tests
             });
 
             object result = controller.RecommendCheapestPricePlans(SMART_METER_ID, null).Value;
-
             var recommendations = ((IEnumerable<KeyValuePair<string, decimal>>)result).ToList();
 
             Assert.Equal("" + Supplier.PowerForEveryone, recommendations[0].Key);
@@ -67,6 +66,38 @@ namespace JOIEnergy.Tests
             Assert.Equal(38m, recommendations[0].Value, 3);
             Assert.Equal(76m, recommendations[1].Value, 3);
             Assert.Equal(380m, recommendations[2].Value, 3);
+            Assert.Equal(3, recommendations.Count);
+        }
+
+        [Fact]
+        public void ShouldRecommendLimitedCheapestPricePlansForMeterUsage() 
+        {
+            meterReadingService.StoreReadings(SMART_METER_ID, new List<ElectricityReading>() {
+                new ElectricityReading() { Time = DateTime.Now.AddMinutes(-45), Reading = 5m },
+                new ElectricityReading() { Time = DateTime.Now, Reading = 20m }
+            });
+
+            object result = controller.RecommendCheapestPricePlans(SMART_METER_ID, 2).Value;
+            var recommendations = ((IEnumerable<KeyValuePair<string, decimal>>)result).ToList();
+
+            Assert.Equal("" + Supplier.PowerForEveryone, recommendations[0].Key);
+            Assert.Equal("" + Supplier.TheGreenEco, recommendations[1].Key);
+            Assert.Equal(16.667m, recommendations[0].Value, 3);
+            Assert.Equal(33.333m, recommendations[1].Value, 3);
+            Assert.Equal(2, recommendations.Count);
+        }
+
+        [Fact]
+        public void ShouldRecommendCheapestPricePlansMoreThanLimitAvailableForMeterUsage()
+        {
+            meterReadingService.StoreReadings(SMART_METER_ID, new List<ElectricityReading>() {
+                new ElectricityReading() { Time = DateTime.Now.AddMinutes(-30), Reading = 35m },
+                new ElectricityReading() { Time = DateTime.Now, Reading = 3m }
+            });
+
+            object result = controller.RecommendCheapestPricePlans(SMART_METER_ID, 5).Value;
+            var recommendations = ((IEnumerable<KeyValuePair<string, decimal>>)result).ToList();
+
             Assert.Equal(3, recommendations.Count);
         }
 
