@@ -46,7 +46,7 @@ namespace JOIEnergy.Controllers
                 return new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
             }
 
-            var recommendations = consumptionForPricePlans.OrderByDescending(pricePlanComparison => pricePlanComparison.Value);
+            var recommendations = consumptionForPricePlans.OrderBy(pricePlanComparison => pricePlanComparison.Value);
 
             if (limit.HasValue && limit.Value < recommendations.Count())
             {

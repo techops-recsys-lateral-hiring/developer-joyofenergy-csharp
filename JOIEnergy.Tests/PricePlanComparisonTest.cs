@@ -4,9 +4,11 @@ using JOIEnergy.Enums;
 using JOIEnergy.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xunit;
 using Xunit.Abstractions;
+using Newtonsoft.Json.Linq;
 
 namespace JOIEnergy.Tests
 {
@@ -40,11 +42,32 @@ namespace JOIEnergy.Tests
 
             var result = controller.CalculatedCostForEachPricePlan(SMART_METER_ID).Value;
 
-            var actualCosts = ((Newtonsoft.Json.Linq.JObject)result).ToObject<Dictionary<string, decimal>>();
+            var actualCosts = ((JObject)result).ToObject<Dictionary<string, decimal>>();
             Assert.Equal(3, actualCosts.Count);
             Assert.Equal(100m, actualCosts["" + Supplier.DrEvilsDarkEnergy], 3);
             Assert.Equal(20m, actualCosts["" + Supplier.TheGreenEco], 3);
             Assert.Equal(10m, actualCosts["" + Supplier.PowerForEveryone], 3);
+        }
+
+        [Fact]
+        public void ShouldRecommendCheapestPricePlansNoLimitForMeterUsage()
+        {
+            meterReadingService.StoreReadings(SMART_METER_ID, new List<ElectricityReading>() {
+                new ElectricityReading() { Time = DateTime.Now.AddMinutes(-30), Reading = 35m },
+                new ElectricityReading() { Time = DateTime.Now, Reading = 3m }
+            });
+
+            object result = controller.RecommendCheapestPricePlans(SMART_METER_ID, null).Value;
+
+            var recommendations = ((IEnumerable<KeyValuePair<string, decimal>>)result).ToList();
+
+            Assert.Equal("" + Supplier.PowerForEveryone, recommendations[0].Key);
+            Assert.Equal("" + Supplier.TheGreenEco, recommendations[1].Key);
+            Assert.Equal("" + Supplier.DrEvilsDarkEnergy, recommendations[2].Key);
+            Assert.Equal(38m, recommendations[0].Value, 3);
+            Assert.Equal(76m, recommendations[1].Value, 3);
+            Assert.Equal(380m, recommendations[2].Value, 3);
+            Assert.Equal(3, recommendations.Count);
         }
 
         [Fact]
