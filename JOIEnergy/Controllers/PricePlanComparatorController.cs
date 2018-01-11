@@ -35,7 +35,8 @@ namespace JOIEnergy.Controllers
 
             return
                 //consumptionForPricePlans.Any() ? 
-                new ObjectResult(response); //: new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
+                //new ObjectResult(response); : 
+                new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
         }
 
         [HttpGet("recommend/{smartMeterId}")]
