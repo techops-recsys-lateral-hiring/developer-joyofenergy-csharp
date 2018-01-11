@@ -15,7 +15,6 @@ namespace JOIEnergy.Tests
             meterReadingService = new MeterReadingService(new Dictionary<string, List<ElectricityReading>>());
         }
 
-
         [Fact]
         public void GivenMeterIdThatDoesNotExistShouldReturnNull() {
             Assert.Empty(meterReadingService.GetReadings("unknown-id"));
