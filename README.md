@@ -68,10 +68,10 @@ POST
 
 ```json
 {
-    "smartMeterId": <smartMeterId>,
-    "electricityReadings": [
-        { "time": <timestamp>, "reading": <reading> },
-        ...
+    "smartMeterId": "smart-meter-0",
+    "electricityReading": [
+        {"time":"2018-12-07T00:32:03.0809349+00:00","reading":0.451474326407292},
+        {"time":"2018-12-07T00:32:13.0809345+00:00","reading":0.498738595982426}
     ]
 }
 ```
@@ -173,3 +173,4 @@ $ dotnet test JOIEnergy.Tests
 ```console
 $ dotnet run --project JOIEnergy
 ```
+If you're running from Visual Studio the default url might be http://localhost:5000/api/values - you need to remove the "api/values" part. Sample url: http://localhost:5000/readings/read/smart-meter-0
