@@ -202,7 +202,7 @@ Example output
 
 ## Requirements
 
-The project requires [.NET Core 2.0](https://dotnet.microsoft.com/download/dotnet-core/2.0). indly note that this project may not work with newer versions of .NET.
+The project requires [.NET Core 2.0](https://dotnet.microsoft.com/download/dotnet-core/2.0). Kindly note that this project may not work with newer versions of .NET.
 
 ## Compatible IDEs
 

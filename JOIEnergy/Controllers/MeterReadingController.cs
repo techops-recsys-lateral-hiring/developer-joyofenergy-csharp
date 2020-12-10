@@ -26,14 +26,14 @@ namespace JOIEnergy.Controllers
             if (!IsMeterReadingsValid(meterReadings)) {
                 return new BadRequestObjectResult("Internal Server Error");
             }
-            _meterReadingService.StoreReadings(meterReadings.SmartMeterId,meterReadings.ElectricityReading);
+            _meterReadingService.StoreReadings(meterReadings.SmartMeterId,meterReadings.ElectricityReadings);
             return new OkObjectResult("{}");
         }
 
         private bool IsMeterReadingsValid(MeterReadings meterReadings)
         {
             String smartMeterId = meterReadings.SmartMeterId;
-            List<ElectricityReading> electricityReadings = meterReadings.ElectricityReading;
+            List<ElectricityReading> electricityReadings = meterReadings.ElectricityReadings;
             return smartMeterId != null && smartMeterId.Any()
                     && electricityReadings != null && electricityReadings.Any();
         }
