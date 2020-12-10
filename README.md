@@ -1,7 +1,6 @@
 # Welcome to PowerDale
 
-PowerDale is a small town with around 100 residents. Most houses have a smartmeter installed that can save and send information
-about how much energy a house has used.
+PowerDale is a small town with around 100 residents. Most houses have a smart meter installed that can save and send information about how much energy a house has used.
 
 There are three major providers of energy in town that charge different amounts for the power they supply.
 
@@ -11,18 +10,15 @@ There are three major providers of energy in town that charge different amounts 
 
 # Introducing JOI Energy
 
-JOI Energy is a new startup in the energy industry.
-Rather than selling energy they want to differentiate themselves from the market by recording their customers' energy usage from their smartmeters and
-recommending the best suppler to meet their needs.
+JOI Energy is a new start-up in the energy industry. Rather than selling energy they want to differentiate themselves from the market by recording their customers' energy usage from their smart meters and recommending the best supplier to meet their needs.
 
 You have been placed into their development team, whose current goal is to produce an API which their customers and smart meters will interact with.
 
-Unfortunately, two of the team are on annual leave, and another has called in sick!
-You are left with a ThoughtWorker to progress with the current user stories on the story wall. This is your chance to make an impact on the business, improve the code base and deliver value.
+Unfortunately, two members of the team are on annual leave, and another one has called in sick! You are left with another ThoughtWorker to progress with the current user stories on the story wall. This is your chance to make an impact on the business, improve the code base and deliver value.
 
 ## Story Wall
 
-At JOI energy the development team use a story wall or kanban board to keep track of features or "stories" as they are worked on.
+At JOI energy the development team use a story wall or Kanban board to keep track of features or "stories" as they are worked on.
 
 The wall you will be working from today has 7 columns:
 
@@ -34,143 +30,207 @@ The wall you will be working from today has 7 columns:
 - Ready for sign off
 - Done
 
-Examples can be found here https://leankit.com/learn/kanban/kanban-board/
+Examples can be found here [https://leankit.com/learn/kanban/kanban-board/](https://leankit.com/learn/kanban/kanban-board/)
 
 ## Users
 
 To trial the new JOI software 5 people from the JOI accounts team have agreed to test the service and share their energy data.
 
-- Sarah - Smart Meter Id: "smart-meter-0", current power supplier: Dr Evil's Dark Energy.
-- Peter - Smart Meter Id: "smart-meter-1", current power supplier: The Green Eco.
-- Charlie - Smart Meter Id: "smart-meter-2", current power supplier: Dr Evil's Dark Energy.
-- Andrea - Smart Meter Id: "smart-meter-3", current power supplier: Power for Everyone.
-- Alex - Smart Meter Id: "smart-meter-4", current power supplier: The Green Eco.
+| User    | Smart Meter ID  | Power Supplier        |
+| ------- | --------------- | --------------------- |
+| Sarah   | `smart-meter-0` | Dr Evil's Dark Energy |
+| Peter   | `smart-meter-1` | The Green Eco         |
+| Charlie | `smart-meter-2` | Dr Evil's Dark Energy |
+| Andrea  | `smart-meter-3` | Power for Everyone    |
+| Alex    | `smart-meter-4` | The Green Eco         |
+
+These values are used in the code and in the following examples too.
 
 ## Overview
 
-JOI Energy is a new energy company that uses data to ensure customers are 
-able to be on the best pricePlan for their energy consumption.
+JOI Energy is a new energy company that uses data to ensure customers are able to be on the best price plan for their energy consumption.
 
 ## API
 
-Below is a list of API endpoints with their respective input and output.
+Below is a list of API endpoints with their respective input and output. Please note that the application needs to be running. For more information about how to run the application, please refer to [run the application](#run-the-application) section below.
 
 ### Store Readings
 
-#### Endpoint
+Endpoint
 
 ```
-POST
-/readings/store
+POST /readings/store
 ```
 
-#### Input
+Example of body
 
 ```json
 {
-    "smartMeterId": "smart-meter-0",
-    "electricityReading": [
-        {"time":"2018-12-07T00:32:03.0809349+00:00","reading":0.451474326407292},
-        {"time":"2018-12-07T00:32:13.0809345+00:00","reading":0.498738595982426}
+    "smartMeterId": <smartMeterId>,
+    "electricityReadings": [
+        { "time": <time>, "reading": <reading> },
+        { "time": <time>, "reading": <reading> },
+        ...
     ]
 }
 ```
 
-`timestamp`: Unix timestamp, e.g. `1504777098`   
-`reading`: kW reading of meter at that time, e.g. `0.0503`
+Parameters
+
+| Parameter      | Description                                |
+| -------------- | ------------------------------------------ |
+| `smartMeterId` | One of the smart meters' id listed above   |
+| `time`         | The time when the _delta_ is measured      |
+| `reading`      | The _delta_ reading since the last reading |
+
+Example readings
+
+| Date (`GMT`)                        | Reading (`kW`) |
+| ----------------------------------- | -------------: |
+| `2020-11-11T08:00:00.0000000+00:00` |         0.0503 |
+| `2020-11-12T08:00:00.0000000+00:00` |         0.0213 |
+
+In the above example, `0.0213 kW` where consumed between `2020-11-11 8:00` and `2020-11-12 8:00`.
+
+Posting readings using CURL
+
+```console
+$ curl \
+  -X POST \
+  -H "Content-Type: application/json" \
+  "http://localhost:5000/readings/store" \
+  -d '{"smartMeterId":"smart-meter-0","electricityReadings":[{"time":"2020-11-11T08:00:00.0000000+00:00","reading":0.0503},{"time":"2020-11-12T08:00:00.0000000+00:00","reading":0.0213}]}'
+```
+
+The above command returns 200 OK and `{}`.
 
 ### Get Stored Readings
 
-#### Endpoint
+Endpoint
 
 ```
-GET
-/readings/read/<smartMeterId>
+GET /readings/read/<smartMeterId>
 ```
 
-`smartMeterId`: A string value, e.g. `smart-meter-0`
+Parameters
 
-#### Output
+| Parameter      | Description                              |
+| -------------- | ---------------------------------------- |
+| `smartMeterId` | One of the smart meters' id listed above |
+
+Retrieving readings using CURL
+
+```console
+$ curl "http://localhost:5000/readings/read/smart-meter-0"
+```
+
+Example output
 
 ```json
 [
-    { "time": "2017-09-07T10:37:52.362Z", "reading": 1.3524882598124337 },
-    ...
+  { "time": "2020-11-11T08:00:00.000000Z", "reading": 0.0503 },
+  { "time": "2020-11-12T08:00:00.000000Z", "reading": 0.0213 },
+  ...
 ]
 ```
 
 ### View Current Price Plan and Compare Usage Cost Against all Price Plans
 
-#### Endpoint
+Endpoint
 
 ```
-GET
-/price-plans/compare-all/<smartMeterId>
+GET /price-plans/compare-all/<smartMeterId>
 ```
 
-`smartMeterId`: A string value, e.g. `smart-meter-0`
+Parameters
 
-#### Output
+| Parameter      | Description                              |
+| -------------- | ---------------------------------------- |
+| `smartMeterId` | One of the smart meters' id listed above |
+
+Retrieving readings using CURL
+
+```console
+$ curl "http://localhost:5000/price-plans/compare-all/smart-meter-0"
+```
+
+Example output
 
 ```json
 {
-    "pricePlanId": "price-plan-2",
-    "pricePlanComparisons": { 
-        "price-plan-0": 21.78133785680731809,
-        ...
-    }
+  "DrEvilsDarkEnergy": 94.87181867550794,
+  "TheGreenEco": 18.974363735101587,
+  "PowerForEveryone": 9.487181867550794
 }
 ```
 
 ### View Recommended Price Plans for Usage
 
-#### Endpoint
+Endpoint
 
 ```
-GET
-/price-plans/recommend/<smartMeterId>[?limit=<limit>]
+GET /price-plans/recommend/<smartMeterId>[?limit=<limit>]
 ```
 
-`smartMeterId`: A string value, e.g. `smart-meter-0`
+Parameters
 
-`limit`: Optional limit to display only a number of price plans, e.g. `2`
+| Parameter      | Description                                          |
+| -------------- | ---------------------------------------------------- |
+| `smartMeterId` | One of the smart meters' id listed above             |
+| `limit`        | (Optional) limit the number of plans to be displayed |
 
-#### Output
+Retrieving readings using CURL
+
+```console
+$ curl "http://localhost:5000/price-plans/recommend/smart-meter-0?limit=2"
+```
+
+Example output
 
 ```json
 [
-    { 
-        "price-plan-0": 15.084324881035297
-    },
-    ...
+  {
+    "key": "PowerForEveryone",
+    "value": 9.487181867550794
+  },
+  {
+    "key": "TheGreenEco",
+    "value": 18.974363735101587
+  }
 ]
 ```
 
 ## Requirements
 
- - .NET Core 2.0
+The project requires [.NET Core 2.0](https://dotnet.microsoft.com/download/dotnet-core/2.0). indly note that this project may not work with newer versions of .NET.
 
 ## Compatible IDEs
 
 Tested on:
+
 - Visual Studio 2017 Community edition on Windows (15.5.2)
 - Visual Studio for Mac
 
-## Build
+## Useful commands
+
+### Build the project
 
 ```console
 $ dotnet build
 ```
 
-## Test
+### Run the tests
 
 ```console
 $ dotnet test JOIEnergy.Tests
 ```
 
-## Run
+### Run the application
+
+Run the application which will be listening on port `5000`.
 
 ```console
 $ dotnet run --project JOIEnergy
 ```
-If you're running from Visual Studio the default url might be http://localhost:5000/api/values - you need to remove the "api/values" part. Sample url: http://localhost:5000/readings/read/smart-meter-0
+
+If you're running from Visual Studio the default url might be `http://localhost:5000/api/values`. If that's the case, then you need to remove the `api/values` part from the URL.
