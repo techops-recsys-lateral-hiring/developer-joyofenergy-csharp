@@ -23,7 +23,8 @@ namespace JOIEnergy.Services
             if (!MeterAssociatedReadings.ContainsKey(smartMeterId)) {
                 MeterAssociatedReadings.Add(smartMeterId, new List<ElectricityReading>());
             }
-            MeterAssociatedReadings[smartMeterId] = electricityReadings;
+
+            electricityReadings.ForEach(electricityReading => MeterAssociatedReadings[smartMeterId].Add(electricityReading));
         }
     }
 }
