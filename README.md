@@ -210,6 +210,7 @@ Tested on:
 
 - Visual Studio 2017 Community edition on Windows (15.5.2)
 - Visual Studio for Mac
+- Visual Studio Code 1.52.0 (with C# OmniSharp extension)
 
 ## Useful commands
 
