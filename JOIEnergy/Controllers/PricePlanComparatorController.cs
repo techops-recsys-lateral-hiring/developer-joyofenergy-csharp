@@ -30,11 +30,9 @@ namespace JOIEnergy.Controllers
                 return new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
             }
 
-            dynamic response = JObject.FromObject(costPerPricePlan);
-
             return
                 costPerPricePlan.Any() ? 
-                new ObjectResult(response) : 
+                new ObjectResult(costPerPricePlan) : 
                 new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
         }
 
