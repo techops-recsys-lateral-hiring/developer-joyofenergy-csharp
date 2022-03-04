@@ -5,9 +5,7 @@ using JOIEnergy.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
-using Xunit.Abstractions;
 using Newtonsoft.Json.Linq;
 
 namespace JOIEnergy.Tests
@@ -40,13 +38,13 @@ namespace JOIEnergy.Tests
             var otherReading = new ElectricityReading() { Time = DateTime.Now, Reading = 5.0m };
             meterReadingService.StoreReadings(SMART_METER_ID, new List<ElectricityReading>() { electricityReading, otherReading });
 
-            var result = controller.CalculatedCostForEachPricePlan(SMART_METER_ID).Value;
+            Dictionary<string, decimal> result = controller.CalculatedCostForEachPricePlan(SMART_METER_ID).Value as Dictionary<string, decimal>;
 
-            var actualCosts = ((JObject)result).ToObject<Dictionary<string, decimal>>();
-            Assert.Equal(3, actualCosts.Count);
-            Assert.Equal(100m, actualCosts["" + Supplier.DrEvilsDarkEnergy], 3);
-            Assert.Equal(20m, actualCosts["" + Supplier.TheGreenEco], 3);
-            Assert.Equal(10m, actualCosts["" + Supplier.PowerForEveryone], 3);
+            Assert.NotNull(result);
+            Assert.Equal(3, result.Count);
+            Assert.Equal(100m, result[Supplier.DrEvilsDarkEnergy.ToString()], 3);
+            Assert.Equal(20m, result[Supplier.TheGreenEco.ToString()], 3);
+            Assert.Equal(10m, result[Supplier.PowerForEveryone.ToString()], 3);
         }
 
         [Fact]

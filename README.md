@@ -202,17 +202,19 @@ Example output
 
 ## Requirements
 
-The project requires [.NET Core 2.0](https://dotnet.microsoft.com/download/dotnet-core/2.0). Kindly note that this project may not work with newer versions of .NET.
+The project requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
 
 ## Compatible IDEs
 
 Tested on:
 
-- Visual Studio 2017 Community edition on Windows (15.5.2)
-- Visual Studio for Mac
-- Visual Studio Code 1.52.0 (with C# OmniSharp extension)
+- Visual Studio 2022 (17.1)
+- Visual Studio for Mac (8.10)
+- Visual Studio Code (1.64)
 
 ## Useful commands
+
+From the terminal/shell/command line tool, use the following commands to build, test and run the API.
 
 ### Build the project
 
@@ -233,5 +235,3 @@ Run the application which will be listening on port `5000`.
 ```console
 $ dotnet run --project JOIEnergy
 ```
-
-If you're running from Visual Studio the default url might be `http://localhost:5000/api/values`. If that's the case, then you need to remove the `api/values` part from the URL.
