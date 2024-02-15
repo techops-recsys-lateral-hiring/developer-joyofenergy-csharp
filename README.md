@@ -202,15 +202,15 @@ Example output
 
 ## Requirements
 
-The project requires [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
+The project requires [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
 ## Compatible IDEs
 
 Tested on:
 
 - Visual Studio 2022 (17.1)
-- Visual Studio for Mac (8.10)
 - Visual Studio Code (1.64)
+- JetBrains Rider 2023.2.3
 
 ## Useful commands
 
