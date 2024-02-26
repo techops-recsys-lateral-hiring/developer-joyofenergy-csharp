@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JOIEnergy.Enums;
+using JOIEnergy.Interfaces;
 
 namespace JOIEnergy.Services
 {
