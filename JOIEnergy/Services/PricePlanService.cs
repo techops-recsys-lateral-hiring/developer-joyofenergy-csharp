@@ -35,7 +35,7 @@ namespace JOIEnergy.Services
 
         public Dictionary<String, decimal> GetConsumptionCostOfElectricityReadingsForEachPricePlan(String smartMeterId)
         {
-            List<ElectricityReading> electricityReadings = meterReadingService.GetReadings(smartMeterId);
+            var electricityReadings = meterReadingService.GetReadings(smartMeterId);
 
             if (!electricityReadings.Any())
             {
