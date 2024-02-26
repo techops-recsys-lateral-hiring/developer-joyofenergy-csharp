@@ -20,13 +20,13 @@ namespace JOIEnergy.Controllers
             Dictionary<string, decimal> costPerPricePlan = pricePlanService.GetConsumptionCostOfElectricityReadingsForEachPricePlan(smartMeterId);
             if (!costPerPricePlan.Any())
             {
-                return new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
+                return new NotFoundObjectResult($"Smart Meter ID ({smartMeterId}) not found");
             }
 
             return
                 costPerPricePlan.Any() ? 
                 new ObjectResult(costPerPricePlan) : 
-                new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
+                new NotFoundObjectResult($"Smart Meter ID ({smartMeterId}) not found");
         }
 
         [HttpGet("recommend/{smartMeterId}")]
@@ -34,7 +34,7 @@ namespace JOIEnergy.Controllers
             var consumptionForPricePlans = pricePlanService.GetConsumptionCostOfElectricityReadingsForEachPricePlan(smartMeterId);
 
             if (!consumptionForPricePlans.Any()) {
-                return new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
+                return new NotFoundObjectResult($"Smart Meter ID ({smartMeterId}) not found");
             }
 
             var recommendations = consumptionForPricePlans.OrderBy(pricePlanComparison => pricePlanComparison.Value);
