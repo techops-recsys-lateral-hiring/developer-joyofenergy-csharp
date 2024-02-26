@@ -11,14 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace JOIEnergy.Controllers
 {
     [Route("readings")]
-    public class MeterReadingController : Controller
+    public class MeterReadingController(IMeterReadingService meterReadingService) : Controller
     {
-        private readonly IMeterReadingService _meterReadingService;
-
-        public MeterReadingController(IMeterReadingService meterReadingService)
-        {
-            _meterReadingService = meterReadingService;
-        }
         // POST api/values
         [HttpPost ("store")]
         public ObjectResult Post([FromBody]MeterReadings meterReadings)
@@ -26,7 +20,7 @@ namespace JOIEnergy.Controllers
             if (!IsMeterReadingsValid(meterReadings)) {
                 return new BadRequestObjectResult("Internal Server Error");
             }
-            _meterReadingService.StoreReadings(meterReadings.SmartMeterId,meterReadings.ElectricityReadings);
+            meterReadingService.StoreReadings(meterReadings.SmartMeterId,meterReadings.ElectricityReadings);
             return new OkObjectResult("{}");
         }
 
@@ -40,7 +34,7 @@ namespace JOIEnergy.Controllers
 
         [HttpGet("read/{smartMeterId}")]
         public ObjectResult GetReading(string smartMeterId) {
-            return new OkObjectResult(_meterReadingService.GetReadings(smartMeterId));
+            return new OkObjectResult(meterReadingService.GetReadings(smartMeterId));
         }
     }
 }

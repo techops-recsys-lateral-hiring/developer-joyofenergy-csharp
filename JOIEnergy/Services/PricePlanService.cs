@@ -6,18 +6,10 @@ using JOIEnergy.Interfaces;
 
 namespace JOIEnergy.Services
 {
-    public class PricePlanService : IPricePlanService
+    public class PricePlanService(List<PricePlan> pricePlan, IMeterReadingService meterReadingService)
+        : IPricePlanService
     {
         public interface Debug { void Log(string s); };
-
-        private readonly List<PricePlan> _pricePlans;
-        private IMeterReadingService _meterReadingService;
-
-        public PricePlanService(List<PricePlan> pricePlan, IMeterReadingService meterReadingService)
-        {
-            _pricePlans = pricePlan;
-            _meterReadingService = meterReadingService;
-        }
 
         private decimal calculateAverageReading(List<ElectricityReading> electricityReadings)
         {
@@ -43,13 +35,13 @@ namespace JOIEnergy.Services
 
         public Dictionary<String, decimal> GetConsumptionCostOfElectricityReadingsForEachPricePlan(String smartMeterId)
         {
-            List<ElectricityReading> electricityReadings = _meterReadingService.GetReadings(smartMeterId);
+            List<ElectricityReading> electricityReadings = meterReadingService.GetReadings(smartMeterId);
 
             if (!electricityReadings.Any())
             {
                 return new Dictionary<string, decimal>();
             }
-            return _pricePlans.ToDictionary(plan => plan.EnergySupplier.ToString(), plan => calculateCost(electricityReadings, plan));
+            return pricePlan.ToDictionary(plan => plan.EnergySupplier.ToString(), plan => calculateCost(electricityReadings, plan));
         }
     }
 }

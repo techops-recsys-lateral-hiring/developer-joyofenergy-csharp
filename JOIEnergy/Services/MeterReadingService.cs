@@ -5,13 +5,10 @@ using JOIEnergy.Interfaces;
 
 namespace JOIEnergy.Services
 {
-    public class MeterReadingService : IMeterReadingService
+    public class MeterReadingService(Dictionary<string, List<ElectricityReading>> meterAssociatedReadings)
+        : IMeterReadingService
     {
-        public Dictionary<string, List<ElectricityReading>> MeterAssociatedReadings { get; set; }
-        public MeterReadingService(Dictionary<string, List<ElectricityReading>> meterAssociatedReadings)
-        {
-            MeterAssociatedReadings = meterAssociatedReadings;
-        }
+        public Dictionary<string, List<ElectricityReading>> MeterAssociatedReadings { get; set; } = meterAssociatedReadings;
 
         public List<ElectricityReading> GetReadings(string smartMeterId) {
             if (MeterAssociatedReadings.ContainsKey(smartMeterId)) {
