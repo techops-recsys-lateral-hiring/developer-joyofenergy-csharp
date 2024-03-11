@@ -31,7 +31,7 @@ namespace JOIEnergy.Tests
         public void GivenMeterReadingThatExistsShouldReturnMeterReadings()
         {
             meterReadingService.StoreReadings(SMART_METER_ID, new List<ElectricityReading>() {
-                new ElectricityReading() { Time = DateTime.Now, Reading = 25m }
+                new ElectricityReading() { Time = DateTime.Now, Reading = 30m }
             });
 
             var electricityReadings = meterReadingService.GetReadings(SMART_METER_ID);

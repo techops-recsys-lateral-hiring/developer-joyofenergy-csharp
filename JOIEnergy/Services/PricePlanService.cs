@@ -36,7 +36,8 @@ namespace JOIEnergy.Services
         {
             var average = calculateAverageReading(electricityReadings);
             var timeElapsed = calculateTimeElapsed(electricityReadings);
-            var averagedCost = average/timeElapsed;
+            // ajuste para 1 leitura apenas
+            var averagedCost = average/(timeElapsed ==0 ? 1: timeElapsed);
             return averagedCost * pricePlan.UnitRate;
         }
 
