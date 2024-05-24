@@ -7,6 +7,7 @@ namespace JOIEnergy.Domain
 {
     public class PricePlan
     {
+        public String PlanName { get; set; }
         public Supplier EnergySupplier { get; set; }
         public decimal UnitRate { get; set; }
         public IList<PeakTimeMultiplier> PeakTimeMultiplier { get; set;}

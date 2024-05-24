@@ -12,6 +12,8 @@ namespace JOIEnergy.Controllers
     [Route("price-plans")]
     public class PricePlanComparatorController : Controller
     {
+        public const string PRICE_PLAN_ID_KEY = "pricePlanId";
+        public const string PRICE_PLAN_COMPARISONS_KEY = "pricePlanComparisons";
         private readonly IPricePlanService _pricePlanService;
         private readonly IAccountService _accountService;
 
@@ -31,10 +33,10 @@ namespace JOIEnergy.Controllers
                 return new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
             }
 
-            return
-                costPerPricePlan.Any() ? 
-                new ObjectResult(costPerPricePlan) : 
-                new NotFoundObjectResult(string.Format("Smart Meter ID ({0}) not found", smartMeterId));
+            return new ObjectResult(new Dictionary<string, object>() {
+                {PRICE_PLAN_ID_KEY, pricePlanId},
+                {PRICE_PLAN_COMPARISONS_KEY, costPerPricePlan},
+            });
         }
 
         [HttpGet("recommend/{smartMeterId}")]
