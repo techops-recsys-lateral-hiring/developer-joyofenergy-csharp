@@ -4,18 +4,18 @@ using JOIEnergy.Enums;
 
 namespace JOIEnergy.Services
 {
-    public class AccountService : Dictionary<string, Supplier>, IAccountService
+    public class AccountService : IAccountService
     { 
-        private Dictionary<string, Supplier> _smartMeterToPricePlanAccounts;
+        private Dictionary<string, string> _smartMeterToPricePlanAccounts;
 
-        public AccountService(Dictionary<string, Supplier> smartMeterToPricePlanAccounts) {
+        public AccountService(Dictionary<string, string> smartMeterToPricePlanAccounts) {
             _smartMeterToPricePlanAccounts = smartMeterToPricePlanAccounts;
         }
 
-        public Supplier GetPricePlanIdForSmartMeterId(string smartMeterId) {
+        public string GetPricePlanIdForSmartMeterId(string smartMeterId) {
             if (!_smartMeterToPricePlanAccounts.ContainsKey(smartMeterId))
             {
-                return Supplier.NullSupplier;
+                return null;
             }
             return _smartMeterToPricePlanAccounts[smartMeterId];
         }

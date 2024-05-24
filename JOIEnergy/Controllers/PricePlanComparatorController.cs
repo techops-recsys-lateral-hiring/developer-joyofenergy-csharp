@@ -24,7 +24,7 @@ namespace JOIEnergy.Controllers
         [HttpGet("compare-all/{smartMeterId}")]
         public ObjectResult CalculatedCostForEachPricePlan(string smartMeterId)
         {
-            Supplier pricePlanId = _accountService.GetPricePlanIdForSmartMeterId(smartMeterId);
+            string pricePlanId = _accountService.GetPricePlanIdForSmartMeterId(smartMeterId);
             Dictionary<string, decimal> costPerPricePlan = _pricePlanService.GetConsumptionCostOfElectricityReadingsForEachPricePlan(smartMeterId);
             if (!costPerPricePlan.Any())
             {
