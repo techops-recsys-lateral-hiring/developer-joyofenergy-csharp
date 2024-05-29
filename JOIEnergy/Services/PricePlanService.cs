@@ -40,7 +40,7 @@ namespace JOIEnergy.Services
             return Math.Round(averagedCost * pricePlan.UnitRate, 3);
         }
 
-        public Dictionary<String, decimal> GetConsumptionCostOfElectricityReadingsForEachPricePlan(String smartMeterId)
+        public Dictionary<string, decimal> GetConsumptionCostOfElectricityReadingsForEachPricePlan(string smartMeterId)
         {
             List<ElectricityReading> electricityReadings = _meterReadingService.GetReadings(smartMeterId);
 

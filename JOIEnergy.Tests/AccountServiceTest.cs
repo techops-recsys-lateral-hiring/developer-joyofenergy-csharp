@@ -8,8 +8,8 @@ namespace JOIEnergy.Tests
 {
     public class AccountServiceTest
     {
-        private const String PRICE_PLAN_ID = "price-plan-id";
-        private const String SMART_METER_ID = "smart-meter-id";
+        private const string PRICE_PLAN_ID = "price-plan-id";
+        private const string SMART_METER_ID = "smart-meter-id";
 
         private AccountService accountService;
 

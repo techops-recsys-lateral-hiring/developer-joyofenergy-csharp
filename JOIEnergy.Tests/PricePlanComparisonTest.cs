@@ -16,10 +16,10 @@ namespace JOIEnergy.Tests
         private MeterReadingService meterReadingService;
         private PricePlanComparatorController controller;
 
-        private static String PRICE_PLAN_1_ID = "test-supplier";
-        private static String PRICE_PLAN_2_ID = "best-supplier";
-        private static String PRICE_PLAN_3_ID = "second-best-supplier";
-        private static String SMART_METER_ID = "smart-meter-id";
+        private static string PRICE_PLAN_1_ID = "test-supplier";
+        private static string PRICE_PLAN_2_ID = "best-supplier";
+        private static string PRICE_PLAN_3_ID = "second-best-supplier";
+        private static string SMART_METER_ID = "smart-meter-id";
 
         public PricePlanComparisonTest()
         {

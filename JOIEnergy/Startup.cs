@@ -14,9 +14,9 @@ namespace JOIEnergy
 {
     public class Startup
     {
-        private const String MOST_EVIL_PRICE_PLAN_ID = "price-plan-0";
-        private const String RENEWABLES_PRICE_PLAN_ID = "price-plan-1";
-        private const String STANDARD_PRICE_PLAN_ID = "price-plan-2";
+        private const string MOST_EVIL_PRICE_PLAN_ID = "price-plan-0";
+        private const string RENEWABLES_PRICE_PLAN_ID = "price-plan-1";
+        private const string STANDARD_PRICE_PLAN_ID = "price-plan-2";
 
         public Startup(IConfiguration configuration)
         {
@@ -84,11 +84,11 @@ namespace JOIEnergy
             return readings;
         }
 
-        public Dictionary<String, String> SmartMeterToPricePlanAccounts
+        public Dictionary<string, string> SmartMeterToPricePlanAccounts
         {
             get
             {
-                Dictionary<String, String> smartMeterToPricePlanAccounts = new Dictionary<string, String>();
+                Dictionary<string, string> smartMeterToPricePlanAccounts = new Dictionary<string, string>();
                 smartMeterToPricePlanAccounts.Add("smart-meter-0", MOST_EVIL_PRICE_PLAN_ID);
                 smartMeterToPricePlanAccounts.Add("smart-meter-1", RENEWABLES_PRICE_PLAN_ID);
                 smartMeterToPricePlanAccounts.Add("smart-meter-2", MOST_EVIL_PRICE_PLAN_ID);
