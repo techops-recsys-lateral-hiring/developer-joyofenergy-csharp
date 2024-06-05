@@ -4,6 +4,6 @@ namespace JOIEnergy.Services
 {
     public interface IAccountService
     {
-        Supplier GetPricePlanIdForSmartMeterId(string smartMeterId);
+        string GetPricePlanIdForSmartMeterId(string smartMeterId);
     }
 }

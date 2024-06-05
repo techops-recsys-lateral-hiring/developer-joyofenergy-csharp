@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JOIEnergy.Domain;
-using JOIEnergy.Enums;
 using JOIEnergy.Generator;
 using JOIEnergy.Services;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +14,10 @@ namespace JOIEnergy
 {
     public class Startup
     {
+        private const string MOST_EVIL_PRICE_PLAN_ID = "price-plan-0";
+        private const string RENEWABLES_PRICE_PLAN_ID = "price-plan-1";
+        private const string STANDARD_PRICE_PLAN_ID = "price-plan-2";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,16 +33,19 @@ namespace JOIEnergy
 
             var pricePlans = new List<PricePlan> {
                 new PricePlan{
+                    PlanName = MOST_EVIL_PRICE_PLAN_ID,
                     EnergySupplier = Enums.Supplier.DrEvilsDarkEnergy,
                     UnitRate = 10m,
                     PeakTimeMultiplier = new List<PeakTimeMultiplier>()
                 },
                 new PricePlan{
+                    PlanName = RENEWABLES_PRICE_PLAN_ID,
                     EnergySupplier = Enums.Supplier.TheGreenEco,
                     UnitRate = 2m,
                     PeakTimeMultiplier = new List<PeakTimeMultiplier>()
                 },
                 new PricePlan{
+                    PlanName = STANDARD_PRICE_PLAN_ID,
                     EnergySupplier = Enums.Supplier.PowerForEveryone,
                     UnitRate = 1m,
                     PeakTimeMultiplier = new List<PeakTimeMultiplier>()
@@ -78,16 +84,16 @@ namespace JOIEnergy
             return readings;
         }
 
-        public Dictionary<String, Supplier> SmartMeterToPricePlanAccounts
+        public Dictionary<string, string> SmartMeterToPricePlanAccounts
         {
             get
             {
-                Dictionary<String, Supplier> smartMeterToPricePlanAccounts = new Dictionary<string, Supplier>();
-                smartMeterToPricePlanAccounts.Add("smart-meter-0", Supplier.DrEvilsDarkEnergy);
-                smartMeterToPricePlanAccounts.Add("smart-meter-1", Supplier.TheGreenEco);
-                smartMeterToPricePlanAccounts.Add("smart-meter-2", Supplier.DrEvilsDarkEnergy);
-                smartMeterToPricePlanAccounts.Add("smart-meter-3", Supplier.PowerForEveryone);
-                smartMeterToPricePlanAccounts.Add("smart-meter-4", Supplier.TheGreenEco);
+                Dictionary<string, string> smartMeterToPricePlanAccounts = new Dictionary<string, string>();
+                smartMeterToPricePlanAccounts.Add("smart-meter-0", MOST_EVIL_PRICE_PLAN_ID);
+                smartMeterToPricePlanAccounts.Add("smart-meter-1", RENEWABLES_PRICE_PLAN_ID);
+                smartMeterToPricePlanAccounts.Add("smart-meter-2", MOST_EVIL_PRICE_PLAN_ID);
+                smartMeterToPricePlanAccounts.Add("smart-meter-3", STANDARD_PRICE_PLAN_ID);
+                smartMeterToPricePlanAccounts.Add("smart-meter-4", RENEWABLES_PRICE_PLAN_ID);
                 return smartMeterToPricePlanAccounts;
             }
         }
