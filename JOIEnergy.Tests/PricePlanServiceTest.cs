@@ -11,7 +11,7 @@ namespace JOIEnergy.Tests
     {
         private PricePlanService _pricePlanService;
         private readonly Mock<MeterReadingService> _mockMeterReadingService;
-        private List<PricePlan> _pricePlans;
+        private List<PricePlan> _pricePlans = [];
 
         public PricePlanServiceTest()
         {
